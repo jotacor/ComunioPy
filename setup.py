@@ -12,7 +12,7 @@ setup(
         author = 'Javier Corbín',
         author_email = 'javi.corbin@gmail.com',
         url = 'https://github.com/jotacor/ComunioPy',
-        download_url = 'https://github.com/jotacor/ComunioPy/archive/v.1.0.tar.gz', 
+        download_url = 'https://github.com/jotacor/ComunioPy/archive/v1.0.tar.gz', 
         keywords = ['comunio', 'API'],
         classifiers = [],
 )
