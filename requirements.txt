@@ -1,0 +1,4 @@
+PyVirtualDisplay==0.1.5
+beautifulsoup4==4.3.2
+requests==0.14.2
+selenium==2.44.0
