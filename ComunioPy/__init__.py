@@ -56,8 +56,8 @@ class Comunio:
         [s.extract() for s in soup('strong')]
         if (soup.find('div',{'id':'userid'}) != None):
             self.id = soup.find('div',{'id':'userid'}).p.text.strip()[2:]
-            self.money = soup.find('div',{'id':'manager_money'}).p.text.strip().replace(".","")[:-2]
-            self.teamvalue = soup.find('div',{'id':'teamvalue'}).p.text.strip().replace(".","")[:-2]
+            self.money = int(soup.find('div',{'id':'manager_money'}).p.text.strip().replace(".","")[:-2])
+            self.teamvalue = int(soup.find('div',{'id':'teamvalue'}).p.text.strip().replace(".","")[:-2])
 
     def get_money(self):
         '''Get my money'''
@@ -117,8 +117,13 @@ class Comunio:
             info.append(i.text)
         for i in soup.find('table',cellpadding=2).find_all('tr')[1:]:
             cad = i.find_all('td')
-            team = i.find('span')['title']
-            info.append([cad[0].text,cad[2].text.strip(),team,cad[4].text.replace(".",""),cad[5].text,cad[6].text])
+            numero=cad[0].text
+            nombre=cad[2].text.strip()
+            team=cad[3].find('img')['alt']
+            precio=cad[4].text.replace(".","")
+            puntos=cad[5].text
+            posicion=cad[6].text
+            info.append([numero,nombre,team,precio,puntos,posicion])
         return info
 
 
@@ -270,7 +275,8 @@ class Comunio:
                     if (only_computer and owner == 'Computer') or not only_computer:
                         on_sale.append([name, team, min_price, market_price, points, date, owner, position])
                 # Llegaremos al break cuando se haya cargado el JS y cargado la lista
-                break
+                if on_sale != []:
+                    break
             except Exception as e:
                 reintentos+=1
                 print 'Error looking for players on sale "players_onsale": ', e
