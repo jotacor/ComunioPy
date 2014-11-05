@@ -17,12 +17,11 @@ test = Comunio(user,passwd,'BBVA') # set username and password
 test.login()
 
 time.sleep(1)
-community_id='2867202'
 print "ID: %s" % test.id
 print "Money: %s" % test.money
 print "TeamValue: %s" % test.teamvalue
 print "Title: %s" % test.title
-print "Community id: %s" % community_id
+print "Community ID: %s" % test.community_id
 
 #===============================================================================
 # time.sleep(1)
@@ -35,7 +34,7 @@ print "Community id: %s" % community_id
 #===============================================================================
 # time.sleep(1)
 # print '\n[*] Info user:'
-# for i in test.info_user(myid):
+# for i in test.info_user(test.id):
 #     print i
 #===============================================================================
 
@@ -43,7 +42,7 @@ print "Community id: %s" % community_id
 #===============================================================================
 # time.sleep(1)
 # print '\n[*] Lineup user:'
-# for i in test.lineup_user(myid):
+# for i in test.lineup_user(test.id):
 #     print i
 #===============================================================================
 
@@ -51,7 +50,7 @@ print "Community id: %s" % community_id
 #===============================================================================
 # time.sleep(1)
 # print '[*] Info community:\n'
-# for i in test.info_community('communityID'):
+# for i in test.info_community('test.community_id'):
 #     print i
 #===============================================================================
 
@@ -98,7 +97,7 @@ print "Community id: %s" % community_id
 #===============================================================================
 # time.sleep(1)
 # print '\n[*] Players on sale:'
-# for player in test.players_onsale(community_id, only_computer=False):
+# for player in test.players_onsale(test.community_id, only_computer=False):
 #     print player
 #===============================================================================
 

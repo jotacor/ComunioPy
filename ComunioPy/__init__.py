@@ -26,6 +26,7 @@ class Comunio:
         self.password = password
         self.domain = Leagues[league]
         self.session = requests.session()
+        self.login()
 
     def login(self):
         payload = { 'login':self.username,
@@ -56,6 +57,7 @@ class Comunio:
             self.id = soup.find('div',{'id':'userid'}).p.text.strip()[2:]
             self.money = int(soup.find('div',{'id':'manager_money'}).p.text.strip().replace(".","")[:-2])
             self.teamvalue = int(soup.find('div',{'id':'teamvalue'}).p.text.strip().replace(".","")[:-2])
+            self.community_id = soup.find('link')['href'][24:]
 
     def get_money(self):
         '''Get my money'''
