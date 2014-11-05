@@ -17,11 +17,12 @@ test = Comunio(user,passwd,'BBVA') # set username and password
 test.login()
 
 time.sleep(1)
-myid=test.get_myid()
-print "ID: %s" % (myid)
-print "Money: %s" % test.get_money()
-print "TeamValue: %s" % test.get_team_value()
-print "Title: %s" % test.get_title()
+community_id='2867202'
+print "ID: %s" % test.id
+print "Money: %s" % test.money
+print "TeamValue: %s" % test.teamvalue
+print "Title: %s" % test.title
+print "Community id: %s" % community_id
 
 #===============================================================================
 # time.sleep(1)
@@ -97,7 +98,7 @@ print "Title: %s" % test.get_title()
 #===============================================================================
 # time.sleep(1)
 # print '\n[*] Players on sale:'
-# for player in test.players_onsale(only_computer=True):
+# for player in test.players_onsale(community_id, only_computer=False):
 #     print player
 #===============================================================================
 

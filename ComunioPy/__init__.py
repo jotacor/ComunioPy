@@ -4,10 +4,8 @@
 from bs4 import BeautifulSoup
 from datetime import date as dt
 import os
-from pyvirtualdisplay import Display
 import re
 import requests
-from selenium import webdriver
 import sys
 import time
 
@@ -227,66 +225,35 @@ class Comunio:
         return None
 
 
-    def players_onsale(self, only_computer=False):
+    def players_onsale(self, community_id, only_computer=False):
         '''
         Returns the football players currently on sale
         @return: [[name, team, min_price, market_price, points, date, owner, position]]
         '''
-        reintentos=0
+        headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain",'Referer': 'http://'+self.domain+'/team_news.phtml',"User-Agent": user_agent}
+        req = self.session.get('http://'+self.domain+'/teamInfo.phtml?tid=' + community_id, headers=headers).content
+        soup = BeautifulSoup(req)
+        
         current_year = dt.today().year
         current_month = dt.today().month
-        display = Display(visible=0, size=(800, 600))
-        display.start()
-        xpaths = { 'usernameTxtBox':   ".//*[@id='login-ubox']/input",
-                   'passwordTxtBox':   ".//*[@id='login-pwbox']/input",
-                   'loginButton'   :   ".//*[@id='login-box-wrapper']/a",
-                   'exchange_table':   ".//*[@id='searchTextResults']"
-                   }
-        browser = webdriver.Firefox()
-        browser.get("http://www.comunio.es/login.phtml")
-        browser.find_element_by_xpath(xpaths['usernameTxtBox']).clear()
-        browser.find_element_by_xpath(xpaths['usernameTxtBox']).send_keys(self.username)
-        browser.find_element_by_xpath(xpaths['passwordTxtBox']).clear()
-        browser.find_element_by_xpath(xpaths['passwordTxtBox']).send_keys(self.password)
-        browser.find_element_by_xpath(xpaths['loginButton']).click()
-        time.sleep(3)
-        # Esperaremos en el while hasta que termine de cargar el JS de la página
-        browser.get('http://www.comunio.es/exchangemarket.phtml')
-        time.sleep(3)
-        while True and reintentos < 20:
-            req = browser.page_source
-            soup = BeautifulSoup(req)
-            on_sale = []
-            year_flag = 0
-            try:
-                for i in soup.find('table',{'class','tablecontent03'}).find_all('tr')[2:]:
-                    name = i.find_all('td')[0].text.strip()
-                    team = i.find('span')['title']
-                    min_price = i.find_all('td')[2].text.replace(",","").strip()
-                    market_price = i.find_all('td')[3].text.replace(",","").strip()
-                    points = i.find_all('td')[4].text.strip().strip()
-                    # Controlamos el cambio de año, ya que comunio no lo dá
-                    if current_month <= 7 and int(i.find_all('td')[5].text[3:5]) > 7:
-                        year_flag = 1
-                    date = str(current_year-year_flag)+i.find_all('td')[5].text[3:5]+i.find_all('td')[5].text[:2]
-                    owner = i.find_all('td')[6].text.strip()
-                    position = i.find_all('td')[7].text.strip()
-                    # Comprobamos si solamente queremos los de la computadora o no
-                    if (only_computer and owner == 'Computer') or not only_computer:
-                        on_sale.append([name, team, min_price, market_price, points, date, owner, position])
-                # Llegaremos al break cuando se haya cargado el JS y cargado la lista
-                if on_sale != []:
-                    break
-            except Exception as e:
-                reintentos+=1
-                print 'Error looking for players on sale "players_onsale": ', e
-                print 'Trying again (%s).' % reintentos
-                if reintentos == 10:
-                    browser.get('http://www.comunio.es/exchangemarket.phtml')
-                time.sleep(3)
-        
-        browser.quit()
-        display.stop()
+        on_sale = []
+        year_flag = 0
+        for i in soup.find_all('table',{'class','tablecontent03'})[2].find_all('tr')[1:]:
+            name = i.find_all('td')[0].text.strip()
+            team = i.find('img')['alt']
+            min_price = i.find_all('td')[2].text.replace(".","").strip()
+            market_price = i.find_all('td')[3].text.replace(".","").strip()
+            points = i.find_all('td')[4].text.strip().strip()
+            # Controlamos el cambio de año, ya que comunio no lo dá
+            if current_month <= 7 and int(i.find_all('td')[5].text[3:5]) > 7:
+                year_flag = 1
+            date = str(current_year-year_flag)+i.find_all('td')[5].text[3:5]+i.find_all('td')[5].text[:2]
+            owner = i.find_all('td')[6].text.strip()
+            position = i.find_all('td')[7].text.strip()
+            # Comprobamos si solamente queremos los de la computadora o no
+            if (only_computer and owner == 'Computer') or not only_computer:
+                on_sale.append([name, team, min_price, market_price, points, date, owner, position])
+
         return on_sale
 
 
