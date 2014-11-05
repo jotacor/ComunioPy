@@ -26,7 +26,6 @@ class Comunio:
         self.password = password
         self.domain = Leagues[league]
         self.session = requests.session()
-        self.login()
 
     def login(self):
         payload = { 'login':self.username,
