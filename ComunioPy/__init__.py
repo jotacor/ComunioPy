@@ -26,6 +26,7 @@ class Comunio:
         self.password = password
         self.domain = Leagues[league]
         self.session = requests.session()
+        self.login()
 
     def login(self):
         payload = { 'login':self.username,
@@ -36,7 +37,8 @@ class Comunio:
         #soup = BeautifulSoup(req)
         if 'puntos en proceso' in req:
             print 'Comunio webpage not available.'
-            sys.exit(1)
+            return
+            #sys.exit(1)
         self.load_info() #Function to load the account information
   
     def load_info(self):
@@ -49,8 +51,9 @@ class Comunio:
         estado = soup.find('div',{'id':'content'}).find('div',{'id':'manager'}).string
         if estado:
             print estado.strip()
-            sys.exit(1)
-            
+            return
+            #sys.exit(1)
+
         [s.extract() for s in soup('strong')]
         if (soup.find('div',{'id':'userid'}) != None):
             self.id = soup.find('div',{'id':'userid'}).p.text.strip()[2:]
