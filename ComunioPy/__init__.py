@@ -34,7 +34,6 @@ class Comunio:
                     'action':'login'}
         headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain","User-Agent": user_agent}
         req = self.session.post('http://'+self.domain+'/login.phtml',headers=headers,data=payload).content
-        #soup = BeautifulSoup(req)
         if 'puntos en proceso' in req:
             print 'Comunio webpage not available.'
             return
@@ -52,7 +51,6 @@ class Comunio:
         if estado:
             print estado.strip()
             return
-            #sys.exit(1)
 
         [s.extract() for s in soup('strong')]
         if (soup.find('div',{'id':'userid'}) != None):
