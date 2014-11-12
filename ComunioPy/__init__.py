@@ -34,14 +34,14 @@ class Comunio:
                     'action':'login'}
         headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain","User-Agent": user_agent}
         req = self.session.post('http://'+self.domain+'/login.phtml',headers=headers,data=payload).content
-        if 'puntos en proceso' in req:
+        if 'puntos en proceso' in req or 'points in process' in req:
             print 'Comunio webpage not available.'
             return
-            #sys.exit(1)
+
         self.load_info() #Function to load the account information
   
     def load_info(self):
-        ''' Get info from account logged '''
+        ''' Get info from logged account '''
         headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain",'Referer': 'http://'+self.domain+'/login.phtml',"User-Agent": user_agent}
         req = self.session.get('http://'+self.domain+'/team_news.phtml',headers=headers).content
         soup = BeautifulSoup(req)
@@ -54,7 +54,7 @@ class Comunio:
 
         [s.extract() for s in soup('strong')]
         if (soup.find('div',{'id':'userid'}) != None):
-            self.id = soup.find('div',{'id':'userid'}).p.text.strip()[2:]
+            self.myid = soup.find('div',{'id':'userid'}).p.text.strip()[2:]
             self.money = int(soup.find('div',{'id':'manager_money'}).p.text.strip().replace(".","")[:-2])
             self.teamvalue = int(soup.find('div',{'id':'teamvalue'}).p.text.strip().replace(".","")[:-2])
             self.community_id = soup.find('link')['href'][24:]
@@ -69,7 +69,7 @@ class Comunio:
     
     def get_myid(self):
         '''Get my id'''
-        return self.id
+        return self.myid
     
     def get_title(self):
         '''Title of the webpage'''
