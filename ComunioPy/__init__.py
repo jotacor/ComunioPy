@@ -166,6 +166,7 @@ class Comunio:
 
     def info_player_id(self,name):
         '''Get id using name football player'''
+        number = 0
         name=name.title().replace(" ", "+")
         headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain",'Referer': 'http://'+self.domain+'/team_news.phtml',"User-Agent": user_agent}
         req = self.session.get('http://stats.comunio.es/search.php?name='+name,headers=headers).content
