@@ -70,6 +70,7 @@ This function is included in login()
 #### get_team_value():string
 #### get_title():string
 #### get_news():list
+#### get_username(): string
 #### standings():list
 ```
 Get the standings of the community and return a list with the elements:
