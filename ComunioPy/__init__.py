@@ -58,6 +58,7 @@ class Comunio:
             self.money = int(soup.find('div',{'id':'manager_money'}).p.text.strip().replace(".","")[:-2])
             self.teamvalue = int(soup.find('div',{'id':'teamvalue'}).p.text.strip().replace(".","")[:-2])
             self.community_id = soup.find('link')['href'][24:]
+            self.username = soup.find('div',{'id':'username'}).p.a.text
 
     def get_money(self):
         '''Get my money'''
@@ -74,6 +75,10 @@ class Comunio:
     def get_title(self):
         '''Title of the webpage'''
         return self.title
+    
+    def get_username(self):
+        '''Name of the user'''
+        return self.username
 
     def get_news(self):
         '''Get all the news from first page'''
