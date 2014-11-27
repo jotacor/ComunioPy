@@ -3,10 +3,12 @@
 
 import os
 from distutils.core import setup
+import pypandoc
 
-long_description = open('README.md', 'rt').read(),
+output = pypandoc.convert('README.md', 'rst')
+long_description = open('README.md', 'rt').read()
 if os.path.exists('README.txt'):
-    long_description = open('README.txt').read(),
+    long_description = open('README.rst').read()
         
 setup(
     name = 'ComunioPy',
@@ -20,4 +22,5 @@ setup(
     download_url = 'https://github.com/jotacor/ComunioPy/archive/v1.2.tar.gz', 
     keywords = ['comunio', 'API'],
     classifiers = [],
+    long_description = long_description
 )
