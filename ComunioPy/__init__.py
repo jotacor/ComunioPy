@@ -35,7 +35,7 @@ class Comunio:
         headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain","User-Agent": user_agent}
         req = self.session.post('http://'+self.domain+'/login.phtml',headers=headers,data=payload).content
         if 'puntos en proceso' in req or 'points in process' in req:
-            print 'Comunio webpage not available.'
+            print('Comunio webpage not available.')
             return
 
         self.load_info() #Function to load the account information
@@ -49,7 +49,7 @@ class Comunio:
         
         estado = soup.find('div',{'id':'content'}).find('div',{'id':'manager'}).string
         if estado:
-            print estado.strip()
+            print(estado.strip())
             return
 
         [s.extract() for s in soup('strong')]
