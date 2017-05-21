@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*- 
 
 from ComunioPy import Comunio
-import ConfigParser
+import configparser
 import time
 
-config = ConfigParser.ConfigParser()
+config = configparser.ConfigParser()
 config.read('../../config.conf')
 if not config.has_section('comunio'):
     config.read('config.conf')
@@ -17,11 +17,11 @@ test = Comunio(user,passwd,'BBVA') # set username and password
 test.login()
 
 time.sleep(1)
-print "ID: %s" % test.id
-print "Money: %s" % test.money
-print "TeamValue: %s" % test.teamvalue
-print "Title: %s" % test.title
-print "Community ID: %s" % test.community_id
+print("ID: %s" % test.id)
+print("Money: %s" % test.money)
+print("TeamValue: %s" % test.teamvalue)
+print("Title: %s" % test.title)
+print("Community ID: %s" % test.community_id)
 
 #===============================================================================
 # time.sleep(1)
