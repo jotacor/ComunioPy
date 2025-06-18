@@ -148,5 +148,5 @@ Get your bids made for.
 
 Author
 ------
-Javier Corbín (javi.corbin@gmail.com/[@korbin](https://twitter.com/korbin)/[Website](http://www.micolabs.com))
+jotacor
 
